@@ -1,0 +1,1591 @@
+/* Silk Stride - Ancient Silk Road Aesthetic */
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
+
+:root {
+  /* Primary Desert Palette */
+  --papyrus: #F5ECD7;
+  --papyrus-dark: #E8DCC4;
+  --sand-light: #EDE4D3;
+  --sand: #D4C4A8;
+  --sand-dark: #B8A88C;
+  --terracotta: #C67B5C;
+  --terracotta-dark: #A65D3F;
+  --ochre: #CC9544;
+  --burnt-sienna: #9A512C;
+  
+  /* Accent Colors - Silk Road Treasures */
+  --lapis: #2E5A7C;
+  --lapis-light: #4A7A9C;
+  --jade: #5C8C6E;
+  --jade-dark: #3D6B4E;
+  --gold: #C9A227;
+  --ruby: #A63D40;
+  
+  /* Neutrals */
+  --ink: #2C2416;
+  --ink-light: #4A4232;
+  --ink-faded: #6B5E4C;
+  --cream: #FFFEF9;
+  
+  /* Typography */
+  --font-display: 'Crimson Pro', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
+  
+  /* Spacing */
+  --section-padding: clamp(4rem, 10vh, 8rem);
+  
+  /* Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Reset */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sand-dark) var(--papyrus);
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--papyrus);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Papyrus Background Texture */
+.papyrus-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: 
+    /* Subtle grain */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+    /* Warm gradient */
+    linear-gradient(180deg, 
+      var(--papyrus) 0%, 
+      var(--sand-light) 30%,
+      var(--papyrus-dark) 70%,
+      var(--sand) 100%
+    );
+  background-blend-mode: soft-light, normal;
+  opacity: 1;
+}
+
+.papyrus-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 120% 80% at 50% 0%, transparent 50%, rgba(180, 160, 130, 0.15) 100%);
+  pointer-events: none;
+}
+
+/* Main Container */
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   SCROLL REVEAL ANIMATIONS
+   ======================================== */
+
+.scroll-section {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: 
+    opacity 0.9s var(--ease-out-expo),
+    transform 1s var(--ease-out-expo);
+  will-change: opacity, transform;
+}
+
+.scroll-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children animation */
+.scroll-section.visible .stagger-item {
+  animation: staggerFadeIn 0.8s var(--ease-out-expo) forwards;
+}
+
+.stagger-item {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(6) { animation-delay: 0.6s; }
+.stagger-item:nth-child(7) { animation-delay: 0.7s; }
+.stagger-item:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes staggerFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   TYPOGRAPHY
+   ======================================== */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.display-heading {
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.section-heading {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.section-subheading {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+}
+
+.body-text {
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  line-height: 1.8;
+  color: var(--ink-light);
+  max-width: 65ch;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+/* ========================================
+   CINEMATIC HERO SECTION
+   ======================================== */
+
+.hero-cinematic {
+  min-height: 400vh; /* Extended height for multi-stage scroll storytelling */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Full-bleed map background */
+.hero-map-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-map-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: sepia(20%) contrast(1.1) brightness(0.9);
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out;
+}
+
+.hero-map-overlay {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at center, transparent 0%, rgba(245, 236, 215, 0.7) 70%),
+    linear-gradient(180deg, rgba(245, 236, 215, 0.3) 0%, rgba(232, 220, 196, 0.8) 100%);
+  pointer-events: none;
+}
+
+/* Scattered artifacts */
+.artifacts-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.artifact {
+  position: absolute;
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+  filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.15));
+}
+
+.artifact-compass {
+  top: 12%;
+  right: 8%;
+  width: 90px;
+  height: 90px;
+}
+
+.artifact-spice {
+  top: 65%;
+  left: 6%;
+  width: 50px;
+  height: 70px;
+}
+
+.artifact-coin {
+  top: 22%;
+  left: 12%;
+  width: 45px;
+  height: 45px;
+}
+
+.artifact-silk {
+  bottom: 30%;
+  right: 8%;
+  width: 70px;
+  height: 55px;
+}
+
+.artifact-stamp {
+  top: 45%;
+  right: 15%;
+  width: 80px;
+  height: 60px;
+}
+
+.artifact-runner {
+  bottom: 25%;
+  left: 15%;
+  width: 35px;
+  height: 45px;
+}
+
+/* Prevent artifacts from overlapping with text on smaller screens */
+@media (max-width: 1024px) {
+  .artifact-compass {
+    top: 10%;
+    right: 5%;
+    width: 70px;
+    height: 70px;
+  }
+  
+  .artifact-coin {
+    top: 20%;
+    left: 5%;
+  }
+  
+  .artifact-stamp {
+    right: 8%;
+  }
+  
+  .artifact-silk {
+    right: 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .artifacts-container {
+    opacity: 0.7;
+  }
+  
+  .artifact-compass,
+  .artifact-coin,
+  .artifact-stamp {
+    display: none;
+  }
+  
+  .artifact-spice,
+  .artifact-silk,
+  .artifact-runner {
+    opacity: 0.4;
+  }
+}
+
+/* Hero content - Progressive text */
+.hero-content {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+.hero-story {
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem 0;
+  will-change: filter, opacity, transform;
+}
+
+.story-line {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.35;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo);
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  width: 100%;
+  max-width: 85ch;
+}
+
+.story-line.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Better spacing for longer lines */
+.story-line:nth-child(3),
+.story-line:nth-child(4) {
+  margin-top: 0.2rem;
+}
+
+/* Final title reveal - Slides from right, emphasizes, then moves to header */
+.hero-title-container {
+  position: absolute;
+  bottom: 35%;
+  left: 50%;
+  text-align: center;
+  width: 100%;
+  max-width: 90%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+
+/* Floating title that stays visible throughout scroll */
+.hero-title-floating {
+  position: fixed;
+  text-align: center;
+  pointer-events: none;
+  will-change: transform, opacity, top, left;
+  transform-origin: left top;
+  z-index: 100;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  background: transparent;
+  transition: 
+    background 0.35s ease-out, 
+    box-shadow 0.35s ease-out, 
+    border-radius 0.35s ease-out,
+    top 0.35s cubic-bezier(0.2, 0.9, 0.2, 1),
+    left 0.35s cubic-bezier(0.2, 0.9, 0.2, 1),
+    transform 0.35s cubic-bezier(0.2, 0.9, 0.2, 1),
+    opacity 0.2s ease-out;
+}
+
+.hero-title-floating .hero-title {
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  text-shadow: 0 2px 12px rgba(255,255,255,0.6);
+  will-change: opacity, filter, transform, letter-spacing;
+}
+
+.hero-title-floating .hero-subtitle {
+  white-space: nowrap;
+  transition: opacity 0.15s ease-out;
+  will-change: opacity, filter;
+}
+
+/* Logo image should always be renderable; we crossfade with opacity in React */
+.hero-title-floating .hero-logo-image {
+  display: block;
+}
+
+/* Logo mode - when title is in top-left corner */
+.hero-title-floating.is-logo {
+  background: rgba(245, 240, 230, 0.95);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(184, 168, 140, 0.4);
+  pointer-events: auto;
+  cursor: pointer;
+  padding: 0.5rem 1.1rem; /* Slightly more horizontal padding for better breathing room */
+  border-radius: 8px;
+  max-width: none;
+  width: auto;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Don't hard-hide text in CSS; React drives opacity so we never get a "blank pill" */
+
+/* Logo image styling */
+.hero-logo-image {
+  display: block;
+  object-fit: contain;
+  transition: opacity 0.25s ease-out;
+}
+
+.hero-title-container .hero-title {
+  margin-bottom: 0.5rem;
+  animation: none;
+  opacity: 1;
+  text-align: center;
+}
+
+.hero-title-container .hero-subtitle {
+  animation: none;
+  opacity: 1;
+  text-align: center;
+  transition: opacity 0.2s ease-out;
+}
+
+/* Sticky logo - hidden by default, shown when hero is gone */
+.sticky-logo {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.5rem;
+  z-index: 100;
+  background: rgba(245, 240, 230, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(184, 168, 140, 0.4);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  display: none; /* Hidden - using floating title instead */
+}
+
+.sticky-logo-text {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+/* Legacy hero styles for fallback */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-title {
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  margin-bottom: 0;
+}
+
+.hero-tagline {
+  margin-top: 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-style: italic;
+  color: var(--ink-faded);
+}
+
+/* Decorative line */
+.hero-line {
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--terracotta), transparent);
+  margin: 3rem auto 0;
+  opacity: 0.6;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: fixed;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 15;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.scroll-indicator span {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+}
+
+.scroll-indicator-mouse {
+  width: 22px;
+  height: 34px;
+  border: 2px solid var(--ink-faded);
+  border-radius: 11px;
+  position: relative;
+  background: rgba(255,255,255,0.3);
+}
+
+.scroll-indicator-mouse::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 6px;
+  background: var(--terracotta);
+  border-radius: 2px;
+  animation: scrollDot 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollDot {
+  0%, 100% { top: 6px; opacity: 1; }
+  50% { top: 16px; opacity: 0.3; }
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
+/* ========================================
+   STORY SECTION
+   ======================================== */
+
+.story-section-wrapper {
+  position: relative;
+  background: var(--papyrus);
+  z-index: 30;
+  width: 100%;
+}
+
+.story-section-wrapper::before {
+  content: '';
+  position: absolute;
+  top: -250px; /* Taller gradient for smoother transition */
+  left: 0;
+  right: 0;
+  height: 250px;
+  background: linear-gradient(180deg, transparent 0%, var(--papyrus) 100%);
+  pointer-events: none;
+  z-index: 25;
+}
+
+.story-section {
+  padding: var(--section-padding) 2rem;
+  padding-top: calc(var(--section-padding) + 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+}
+
+.story-section .section-heading {
+  margin-bottom: 1.5rem;
+}
+
+.story-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--terracotta), transparent);
+  margin: 1.5rem 0 2rem;
+}
+
+/* ========================================
+   MAP SECTION
+   ======================================== */
+
+.map-section {
+  padding: var(--section-padding) 0;
+  position: relative;
+  background: var(--papyrus);
+}
+
+.map-header {
+  text-align: center;
+  padding: 0 2rem 2rem;
+}
+
+.map-header .section-heading {
+  margin-bottom: 0.5rem;
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 500px;
+  max-height: 750px;
+  overflow: hidden;
+  background: var(--papyrus-dark);
+  border-top: 3px solid var(--sand-dark);
+  border-bottom: 3px solid var(--sand-dark);
+  box-shadow: 
+    inset 0 15px 40px -10px rgba(0,0,0,0.12),
+    inset 0 -15px 40px -10px rgba(0,0,0,0.12);
+  cursor: grab;
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+.map-container:active {
+  cursor: grabbing;
+}
+
+/* Vignette overlay */
+.map-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(100, 80, 60, 0.2) 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Map image wrapper */
+.map-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center center;
+  transition: transform 0.1s ease-out;
+  will-change: transform;
+}
+
+.map-image {
+  display: block;
+  width: auto;
+  max-width: none;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+  filter: sepia(12%) contrast(1.02) brightness(1.01);
+  object-fit: contain;
+}
+
+/* Location Markers */
+.location-marker {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  cursor: pointer;
+  z-index: 20;
+  opacity: 0;
+  animation: markerDrop 0.6s var(--ease-out-expo) forwards;
+}
+
+.location-marker:nth-child(1) { animation-delay: 0.1s; }
+.location-marker:nth-child(2) { animation-delay: 0.2s; }
+.location-marker:nth-child(3) { animation-delay: 0.3s; }
+.location-marker:nth-child(4) { animation-delay: 0.4s; }
+.location-marker:nth-child(5) { animation-delay: 0.5s; }
+.location-marker:nth-child(6) { animation-delay: 0.6s; }
+.location-marker:nth-child(7) { animation-delay: 0.7s; }
+
+@keyframes markerDrop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -150%) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%) scale(1);
+  }
+}
+
+.marker-pin {
+  width: 28px;
+  height: 28px;
+  color: var(--terracotta);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+  transition: all 0.25s var(--ease-out-quart);
+}
+
+.marker-pin svg {
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+.location-marker:hover .marker-pin {
+  color: var(--terracotta-dark);
+  transform: scale(1.15) translateY(-2px);
+}
+
+.marker-label {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 4px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  background: rgba(255, 254, 249, 0.92);
+  padding: 3px 8px;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.25s var(--ease-out-quart);
+}
+
+.location-marker:hover .marker-label {
+  background: var(--cream);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Pulse ring */
+.marker-pulse {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 2px solid var(--terracotta);
+  animation: pulse 2.5s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Map Controls */
+.map-controls {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 25;
+}
+
+.map-control-btn {
+  width: 40px;
+  height: 40px;
+  background: var(--cream);
+  border: 2px solid var(--sand-dark);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-light);
+  transition: all 0.2s ease;
+}
+
+.map-control-btn:hover {
+  background: var(--papyrus);
+  border-color: var(--terracotta);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.map-control-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Compass */
+.map-compass {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  width: 60px;
+  height: 60px;
+  opacity: 0.6;
+  z-index: 25;
+}
+
+/* Map instructions */
+.map-instructions {
+  text-align: center;
+  padding: 1rem 2rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-faded);
+}
+
+/* ========================================
+   PHOTO MODAL
+   ======================================== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 18, 14, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--cream);
+  border-radius: 8px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: hidden;
+  transform: translateY(30px) scale(0.95);
+  transition: transform 0.4s var(--ease-out-expo);
+  box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+}
+
+.modal-overlay.open .modal-content {
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--sand-light);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.modal-subtitle {
+  font-size: 0.85rem;
+  color: var(--ink-faded);
+  margin-top: 0.25rem;
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-faded);
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--sand-light);
+  color: var(--ink);
+}
+
+.modal-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Photo carousel */
+.photo-carousel {
+  position: relative;
+  background: var(--ink);
+  aspect-ratio: 16 / 10;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--ink);
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.carousel-nav:hover {
+  background: var(--cream);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.carousel-nav.prev { left: 1rem; }
+.carousel-nav.next { right: 1rem; }
+
+.carousel-nav svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Photo indicators */
+.photo-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: var(--papyrus-dark);
+}
+
+.photo-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--sand-dark);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.photo-indicator.active {
+  background: var(--terracotta);
+  transform: scale(1.2);
+}
+
+/* Modal info */
+.modal-info {
+  padding: 1.5rem 2rem;
+}
+
+.modal-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--ink-light);
+}
+
+.modal-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--jade);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 3px;
+}
+
+/* Placeholder image */
+.placeholder-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--sand) 0%, var(--sand-dark) 100%);
+  color: var(--ink-faded);
+}
+
+.placeholder-image svg {
+  width: 64px;
+  height: 64px;
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
+.placeholder-image span {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* ========================================
+   MEMBERS SECTION
+   ======================================== */
+
+.members-section {
+  padding: var(--section-padding) 2rem;
+  background: var(--papyrus);
+  position: relative;
+}
+
+.members-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.members-header .section-heading {
+  margin-bottom: 0.5rem;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.members-more {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.members-more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.1rem;
+  border-radius: 6px;
+  background: var(--cream);
+  border: 1px solid rgba(184, 168, 140, 0.55);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  transition: transform 0.2s var(--ease-out-quart), box-shadow 0.2s var(--ease-out-quart);
+}
+
+.members-more-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.10);
+}
+
+/* Member Card */
+.member-card {
+  background: var(--cream);
+  border-radius: 6px;
+  padding: 1.75rem;
+  box-shadow: 
+    0 1px 3px rgba(0,0,0,0.05),
+    0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s var(--ease-out-quart);
+  position: relative;
+  overflow: hidden;
+}
+
+.member-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--terracotta), var(--ochre), var(--jade));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.member-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.08),
+    0 12px 40px rgba(0,0,0,0.12);
+}
+
+.member-card:hover::before {
+  opacity: 1;
+}
+
+.member-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sand) 0%, var(--sand-dark) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.member-avatar svg {
+  width: 28px;
+  height: 28px;
+  color: var(--ink-faded);
+}
+
+.member-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+}
+
+.member-role {
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 1rem;
+}
+
+.member-marathons {
+  margin-bottom: 1.25rem;
+}
+
+.member-marathons-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-faded);
+  margin-bottom: 0.5rem;
+}
+
+.marathon-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.marathon-tag {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  background: var(--sand-light);
+  color: var(--ink-light);
+  border-radius: 3px;
+}
+
+.strava-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #FC4C02;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.strava-link:hover {
+  opacity: 0.75;
+}
+
+.strava-link svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ========================================
+   FOOTER
+   ======================================== */
+
+.footer {
+  padding: 4rem 2rem;
+  text-align: center;
+  border-top: 1px solid var(--sand);
+}
+
+.footer-logo {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+.footer-logo-image {
+  height: clamp(2rem, 4vw, 2.5rem);
+  width: auto;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  color: var(--ink-faded);
+  margin-bottom: 1.5rem;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.footer-link {
+  color: var(--ink-light);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: var(--terracotta);
+}
+
+.footer-copyright {
+  font-size: 0.75rem;
+  color: var(--ink-faded);
+  letter-spacing: 0.1em;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding: clamp(3rem, 8vh, 5rem);
+  }
+  
+  .map-container {
+    height: 60vh;
+    min-height: 400px;
+  }
+  
+  .map-controls {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .map-compass {
+    width: 45px;
+    height: 45px;
+    bottom: 1rem;
+    left: 1rem;
+  }
+  
+  .marker-pin {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .marker-label {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+  }
+  
+  .modal-content {
+    max-height: 95vh;
+  }
+  
+  .modal-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .modal-info {
+    padding: 1rem 1.5rem;
+  }
+  
+  .carousel-nav {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-cinematic {
+    min-height: 200vh;
+  }
+  
+  .story-line {
+    font-size: clamp(1.2rem, 5vw, 2rem);
+  }
+  
+  .artifact-compass {
+    width: 60px;
+    height: 60px;
+    top: 10%;
+    right: 5%;
+  }
+  
+  .artifact-spice {
+    width: 35px;
+    height: 50px;
+    left: 5%;
+  }
+  
+  .artifact-coin {
+    width: 30px;
+    height: 30px;
+    left: 10%;
+  }
+  
+  .artifact-silk {
+    width: 50px;
+    height: 40px;
+    right: 5%;
+  }
+  
+  .artifact-stamp {
+    width: 55px;
+    height: 42px;
+    right: 10%;
+  }
+  
+  .artifact-runner {
+    width: 25px;
+    height: 35px;
+    left: 10%;
+  }
+}
+
+@media (max-width: 480px) {
+  .display-heading {
+    font-size: clamp(2.5rem, 15vw, 4rem);
+  }
+  
+  .section-subheading {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+  }
+  
+  .artifacts-container {
+    display: none; /* Hide on very small screens */
+  }
+  
+  .story-line {
+    font-size: clamp(1rem, 6vw, 1.5rem);
+  }
+}
+
+/* ========================================
+   MEMBER CARD ANIMATIONS
+   ======================================== */
+
+.members-section.visible .member-card {
+  animation: cardReveal 0.7s var(--ease-out-expo) forwards;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.members-section.visible .member-card:nth-child(1) { animation-delay: 0.15s; }
+.members-section.visible .member-card:nth-child(2) { animation-delay: 0.25s; }
+.members-section.visible .member-card:nth-child(3) { animation-delay: 0.35s; }
+.members-section.visible .member-card:nth-child(4) { animation-delay: 0.45s; }
+.members-section.visible .member-card:nth-child(5) { animation-delay: 0.55s; }
+.members-section.visible .member-card:nth-child(6) { animation-delay: 0.65s; }
+.members-section.visible .member-card:nth-child(7) { animation-delay: 0.75s; }
+.members-section.visible .member-card:nth-child(8) { animation-delay: 0.85s; }
+
+@keyframes cardReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   DECORATIVE ELEMENTS
+   ======================================== */
+
+/* Decorative borders on sections */
+.story-section::before,
+.members-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sand-dark), transparent);
+}
+
+/* Decorative corner ornaments for map */
+.map-container::before,
+.map-container::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--sand-dark);
+  opacity: 0.4;
+  z-index: 15;
+  pointer-events: none;
+}
+
+.map-container::before {
+  top: 12px;
+  left: 12px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.map-container::after {
+  bottom: 12px;
+  right: 12px;
+  border-left: none;
+  border-top: none;
+}
+
+/* ========================================
+   ENHANCED HOVER STATES
+   ======================================== */
+
+/* Marathon tag hover */
+.marathon-tag {
+  transition: all 0.2s ease;
+}
+
+.marathon-tag:hover {
+  background: var(--sand);
+  color: var(--ink);
+}
+
+/* Member card avatar glow on hover */
+.member-card:hover .member-avatar {
+  box-shadow: 0 0 0 4px rgba(198, 123, 92, 0.2);
+}
+
+.member-avatar {
+  transition: box-shadow 0.3s ease;
+}
+
+/* ========================================
+   SCROLL SNAP (OPTIONAL)
+   ======================================== */
+
+/* Uncomment for full-page scroll snap effect */
+/*
+html {
+  scroll-snap-type: y proximity;
+}
+
+.hero,
+.story-section,
+.map-section,
+.members-section {
+  scroll-snap-align: start;
+}
+*/
+
+/* ========================================
+   LOADING STATE
+   ======================================== */
+
+.loading-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--sand-light);
+  border-top-color: var(--terracotta);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ========================================
+   SELECTION STYLING
+   ======================================== */
+
+::selection {
+  background: var(--terracotta);
+  color: var(--cream);
+}
+
+::-moz-selection {
+  background: var(--terracotta);
+  color: var(--cream);
+}
+
+/* ========================================
+   SMOOTH FOCUS STATES
+   ======================================== */
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--terracotta);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   SILK ROAD ROUTE OVERLAY (DECORATIVE)
+   ======================================== */
+
+/* Subtle dotted line connecting markers - optional decorative element */
+.silk-route-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.silk-route-line svg {
+  width: 100%;
+  height: 100%;
+}
+
+.silk-route-line path {
+  fill: none;
+  stroke: var(--terracotta);
+  stroke-width: 2;
+  stroke-dasharray: 8 6;
+  stroke-linecap: round;
+  opacity: 0.3;
+}
