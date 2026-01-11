@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Location } from '@/data/locations';
+import { getPhotosForLocation } from '@/data/photos';
 
 interface PhotoModalProps {
   location: Location | null;
@@ -12,41 +13,18 @@ interface PhotoModalProps {
 export default function PhotoModal({ location, isOpen, onClose }: PhotoModalProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [photos, setPhotos] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [imageLoading, setImageLoading] = useState(true);
 
-  // Try to load photos for the location
+  // Load photos for the location from our data file
   useEffect(() => {
     if (!location) return;
     
-    setLoading(true);
     setCurrentIndex(0);
+    setImageLoading(true);
     
-    // In a real app, you'd fetch the photo list from an API
-    // For now, we'll use placeholder logic
-    // Photos should be in /public/photos/{location.id}/1.jpg, 2.jpg, etc.
-    const checkPhotos = async () => {
-      const foundPhotos: string[] = [];
-      
-      // Try to check if photos exist (in production you'd have an API)
-      for (let i = 1; i <= 10; i++) {
-        const path = `/photos/${location.id}/${i}.jpg`;
-        try {
-          const res = await fetch(path, { method: 'HEAD' });
-          if (res.ok) {
-            foundPhotos.push(path);
-          } else {
-            break;
-          }
-        } catch {
-          break;
-        }
-      }
-      
-      setPhotos(foundPhotos);
-      setLoading(false);
-    };
-    
-    checkPhotos();
+    // Get photos from our data file - instant, no network requests
+    const locationPhotos = getPhotosForLocation(location.id);
+    setPhotos(locationPhotos);
   }, [location]);
 
   // Keyboard navigation
@@ -56,8 +34,10 @@ export default function PhotoModal({ location, isOpen, onClose }: PhotoModalProp
     if (e.key === 'Escape') {
       onClose();
     } else if (e.key === 'ArrowLeft') {
+      setImageLoading(true);
       setCurrentIndex(prev => (prev > 0 ? prev - 1 : photos.length - 1));
     } else if (e.key === 'ArrowRight') {
+      setImageLoading(true);
       setCurrentIndex(prev => (prev < photos.length - 1 ? prev + 1 : 0));
     }
   }, [isOpen, onClose, photos.length]);
@@ -116,26 +96,30 @@ export default function PhotoModal({ location, isOpen, onClose }: PhotoModalProp
 
         {/* Photo carousel */}
         <div className="photo-carousel">
-          {loading ? (
-            <div className="placeholder-image">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-              </svg>
-              <span>Loading...</span>
-            </div>
-          ) : hasPhotos ? (
+          {hasPhotos ? (
             <>
+              {imageLoading && (
+                <div className="carousel-loading">
+                  <span>Loading...</span>
+                </div>
+              )}
               <img
                 src={photos[currentIndex]}
                 alt={`${location.name} marathon - Photo ${currentIndex + 1}`}
                 className="carousel-image"
+                style={{ opacity: imageLoading ? 0 : 1 }}
+                onLoad={() => setImageLoading(false)}
+                onError={() => setImageLoading(false)}
               />
               
               {photos.length > 1 && (
                 <>
                   <button
                     className="carousel-nav prev"
-                    onClick={() => setCurrentIndex(prev => (prev > 0 ? prev - 1 : photos.length - 1))}
+                    onClick={() => {
+                      setImageLoading(true);
+                      setCurrentIndex(prev => (prev > 0 ? prev - 1 : photos.length - 1));
+                    }}
                     aria-label="Previous photo"
                   >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -144,7 +128,10 @@ export default function PhotoModal({ location, isOpen, onClose }: PhotoModalProp
                   </button>
                   <button
                     className="carousel-nav next"
-                    onClick={() => setCurrentIndex(prev => (prev < photos.length - 1 ? prev + 1 : 0))}
+                    onClick={() => {
+                      setImageLoading(true);
+                      setCurrentIndex(prev => (prev < photos.length - 1 ? prev + 1 : 0));
+                    }}
                     aria-label="Next photo"
                   >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -171,7 +158,10 @@ export default function PhotoModal({ location, isOpen, onClose }: PhotoModalProp
               <button
                 key={index}
                 className={`photo-indicator ${index === currentIndex ? 'active' : ''}`}
-                onClick={() => setCurrentIndex(index)}
+                onClick={() => {
+                  setImageLoading(true);
+                  setCurrentIndex(index);
+                }}
                 aria-label={`Go to photo ${index + 1}`}
               />
             ))}

@@ -5,6 +5,7 @@ export interface Member {
   marathons: string[];
   stravaUrl: string;
   joinedYear: number;
+  profilePicture?: string; // Optional - can be fetched from Strava or set manually
 }
 
 export const members: Member[] = [
@@ -14,6 +15,7 @@ export const members: Member[] = [
     marathons: ['Tashkent', 'Bukhara', 'Zaamin'],
     stravaUrl: 'https://www.strava.com/athletes/161019714',
     joinedYear: 2023,
+    // Add profile picture path here, e.g.: profilePicture: '/photos/members/azizbek.jpg',
   },
   {
     id: 'bilol-bakhrillaev',
@@ -22,6 +24,7 @@ export const members: Member[] = [
     marathons: ['Tashkent', 'Bukhara', 'Almaty', 'Zaamin'],
     stravaUrl: 'https://www.strava.com/athletes/144799956',
     joinedYear: 2023,
+    // Add profile picture path here
   },
   {
     id: 'husan-isomiddinov',
@@ -30,6 +33,7 @@ export const members: Member[] = [
     marathons: ['Bukhara', 'Shymkent', 'Zaamin', 'Barsa Kelmes', 'Almaty'],
     stravaUrl: 'https://www.strava.com/athletes/145191640',
     joinedYear: 2023,
+    // Add profile picture path here
   },
   {
     id: 'abrorbek-nematov',
@@ -37,6 +41,7 @@ export const members: Member[] = [
     marathons: ['Tashkent', 'Zaamin', 'Almaty'],
     stravaUrl: 'https://www.strava.com/athletes/163050444',
     joinedYear: 2024,
+    // Add profile picture path here
   },
   {
     id: 'ozodbek-eshboboev',
@@ -44,6 +49,7 @@ export const members: Member[] = [
     marathons: ['Tashkent', 'Almaty', 'Barsa Kelmes', 'Zaamin'],
     stravaUrl: 'https://www.strava.com/athletes/167806748',
     joinedYear: 2024,
+    // Add profile picture path here
   },
   {
     id: 'eldor-khamraev',
@@ -51,6 +57,7 @@ export const members: Member[] = [
     marathons: ['Bukhara', 'Zaamin'],
     stravaUrl: 'https://www.strava.com/athletes/161906424',
     joinedYear: 2024,
+    // Add profile picture path here
   },
 ];
 
