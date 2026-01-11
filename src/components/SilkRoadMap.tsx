@@ -18,6 +18,7 @@ export default function SilkRoadMap() {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(DEFAULT_ZOOM);
+  const [isMapActive, setIsMapActive] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const mapImgRef = useRef<HTMLImageElement>(null);
 
@@ -146,11 +147,21 @@ export default function SilkRoadMap() {
     return () => window.removeEventListener('resize', handleResize);
   }, [computeHomeView, homeView]);
 
+  const handleMapActivate = useCallback(() => {
+    setIsMapActive(true);
+  }, []);
+
+  const handleMapDeactivate = useCallback(() => {
+    setIsMapActive(false);
+    setIsDragging(false);
+  }, []);
+
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('.location-marker')) return;
+    if (!isMapActive) return;
     setIsDragging(true);
     setDragStart({ x: e.clientX - mapPosition.x, y: e.clientY - mapPosition.y });
-  }, [mapPosition]);
+  }, [mapPosition, isMapActive]);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!isDragging) return;
@@ -169,6 +180,7 @@ export default function SilkRoadMap() {
   }, []);
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
+    if (!isMapActive) return; // Don't intercept scroll when map is not active
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.1 : 0.1; // Slower zoom
     const newZoom = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, zoom + delta));
@@ -180,7 +192,7 @@ export default function SilkRoadMap() {
       x: Math.max(-maxPan.x, Math.min(maxPan.x, prev.x)),
       y: Math.max(-maxPan.y, Math.min(maxPan.y, prev.y)),
     }));
-  }, [zoom, getMaxPan]);
+  }, [zoom, getMaxPan, isMapActive]);
 
   const handleLocationClick = useCallback((location: Location) => {
     setSelectedLocation(location);
@@ -227,12 +239,16 @@ export default function SilkRoadMap() {
 
   // Touch support
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    if (!isMapActive) {
+      setIsMapActive(true);
+      return;
+    }
     if (e.touches.length === 1) {
       const touch = e.touches[0];
       setIsDragging(true);
       setDragStart({ x: touch.clientX - mapPosition.x, y: touch.clientY - mapPosition.y });
     }
-  }, [mapPosition]);
+  }, [mapPosition, isMapActive]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (!isDragging || e.touches.length !== 1) return;
@@ -258,17 +274,29 @@ export default function SilkRoadMap() {
       {/* Map container */}
       <div
         ref={containerRef}
-        className="map-container stagger-item"
+        className={`map-container stagger-item ${isMapActive ? 'map-active' : ''}`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
+        onMouseLeave={handleMapDeactivate}
         onWheel={handleWheel}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleMouseUp}
-        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        style={{ cursor: isMapActive ? (isDragging ? 'grabbing' : 'grab') : 'pointer' }}
       >
+        {/* Activation overlay */}
+        {!isMapActive && (
+          <div className="map-activate-overlay" onClick={handleMapActivate}>
+            <div className="map-activate-hint">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+              </svg>
+              <span>Click to interact with map</span>
+            </div>
+          </div>
+        )}
+
         {/* Vignette overlay */}
         <div className="map-vignette" />
 
@@ -356,7 +384,7 @@ export default function SilkRoadMap() {
 
       {/* Instructions */}
       <p className="map-instructions stagger-item">
-        Drag to pan • Scroll to zoom • Click markers to see photos
+        Click map to interact • Drag to pan • Scroll to zoom • Click markers to see <span className="highlight-photos">photos</span>
       </p>
 
       {/* Photo modal */}

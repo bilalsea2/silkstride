@@ -14,6 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/logos/icon-gold.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logos/icon-gold.png" />
+      </head>
       <body>
         {/* Papyrus background texture */}
         <div className="papyrus-bg" aria-hidden="true" />
